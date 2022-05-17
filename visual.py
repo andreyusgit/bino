@@ -45,6 +45,7 @@ def click():
     messagebox.showinfo(title='Результат', message=f'При таком времени подготовки, вероятнее всего, Вы получите {text}')
 
 
+
 imp()
 control_value = func(int(((averP / len(positive)) + (averN / len(negative))) / 2))
 root = Tk()
