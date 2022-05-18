@@ -4,8 +4,8 @@ from calculations import main, artificial_result
 
 
 def click():
-    time = int(Input.get())
-    text = artificial_result(control_value, time)
+    imp = int(Input.get())
+    text = artificial_result(control_value, imp)
     messagebox.showinfo(title='Результат', message=f'При таком времени подготовки, вероятнее всего, Вы получите {text}')
 
 
