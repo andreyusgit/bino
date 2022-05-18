@@ -54,7 +54,7 @@ def fill_matrix():
     for i in range(len_of_arrays):
         if all_results[i]:
             Y[i][0] = 1
-        elif all_results[i]:
+        else:
             Y[i][0] = 0
 
 
