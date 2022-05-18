@@ -34,7 +34,7 @@ def imp():
             all_results.append(0)
 
 
-# заполнение матриц Y, Р и W (при первом прогоне весов нет, поэтому матрица заполняется единицами)
+# заполнение матриц Y, Р
 def fill_matrix():
     len_of_arrays = len(all_values)
     global P
