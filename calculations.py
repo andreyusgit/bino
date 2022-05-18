@@ -62,22 +62,17 @@ def fill_matrix():
 def weight():
     global W
     for i in range(len(positive) + len(negative)):
-        W[i][i] = 1 - (math.fabs(func(all_results[i] * 30) - func(all_values[i])))
+        W[i][i] = 1 - (math.fabs(func(all_results[i] * 15) - func(all_values[i])))
         # если результат незачет (0), то имеем выражение 0 * 30 = 0, результат зачет - 1 * 30 = 30
 
 
-# в этой функции происходит сравнение переданного в функцию значения и К.З.
-def artificial_result(cv, x):
-    if func(x) >= cv:
-        return 'зачет'
-    else:
-        return 'незачет'
-
-
 # метод наименьших квадратов, используется для вычисления аргументов а0 и а1
-def square_method(Y, P):
-    temp = np.array(linalg.inv(((P.transpose()).dot(np.linalg.matrix_power(W, 2))).dot(P)))
-    arguments = temp.dot(P.transpose().dot(np.linalg.matrix_power(W, 1)).dot(Y))
+def square_method(check, Y, P):
+    if not check:
+        arguments = np.array((linalg.inv((P.transpose()).dot(P))).dot(P.transpose().dot(Y)))
+    else:
+        temp = np.array(linalg.inv(((P.transpose()).dot(np.linalg.matrix_power(W, 2))).dot(P)))
+        arguments = temp.dot(P.transpose().dot(np.linalg.matrix_power(W, 1)).dot(Y))
 
     a[0] = arguments[0]
     a[1] = arguments[1]
@@ -93,11 +88,19 @@ def func(x):
     return a[0] + a[1] * xs(x)
 
 
+# в этой функции происходит сравнение переданного в функцию значения и К.З.
+def artificial_result(cv, x):
+    if func(x) >= cv:
+        return 'зачет'
+    else:
+        return 'незачет'
+
+
 def main():
     imp()  # получаем все данные, по которым будем обучать алгоритм, из таблицы
     fill_matrix()  # заполняем матрицы значениями
-    square_method(Y, P)  # первый раз ищем аргументы функции (без весов)
+    square_method(False, Y, P)  # первый раз ищем аргументы функции (без весов)
     weight()  # находим веса для каждого значения ищ нашей базы данных
-    square_method(Y, P)  # второй прогон - с весами для каждого значения
+    square_method(True, Y, P)  # второй прогон - с весами для каждого значения
     control_value = func(int(((aver[0] / len(positive)) + (aver[1] / len(negative))) / 2))  # находим КЗ
     return control_value
